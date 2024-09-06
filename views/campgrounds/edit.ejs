@@ -4,29 +4,41 @@
     <div>
         <h1 class="text-center">Edit Campground</h1>
         <div class="col-6 offset-3">
-            <form action="/campgrounds/<%= campground._id%>?_method=PUT" method="POST">
+            <form action="/campgrounds/<%= campground._id%>?_method=PUT" method="POST" novalidate class="validated-form">
                 <div class="mb-3">
                     <label class="form-label" for="title">Title</label>
-                    <input class="form-control" type="text" id="title" name="campground[title]" value="<%= campground.title %>">
+                    <input class="form-control" type="text" id="title" name="campground[title]" value="<%= campground.title %>" required>
+                    <div class="invalid-feedback">
+                        Camp Name Required
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="location">Location</label>
-                    <input class="form-control" type="text" id="location" name="campground[location]" value="<%= campground.location %>">
+                    <input class="form-control" type="text" id="location" name="campground[location]" value="<%= campground.location %>" required>
+                    <div class="invalid-feedback">
+                        Location Required
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="image">Image URL</label>
-                    <input class="form-control" type="text" id="image" name="campground[image]" value="<%= campground.image %>">
+                    <input class="form-control" type="text" id="image" name="campground[image]" value="<%= campground.image %>" required>
+                    <div class="invalid-feedback">
+                        Image URL
+                    </div>
                 </div>
-                <div class="mb-3">
+                <div>
                     <label class="form-label" for="price">Campground Price</label>
                 </div>
-                <div class="input-group">
+                <div class="input-group mb-3">
                     <span class="input-group-text" id="price-label">$</span>
-                    <input type="text" id="price" placeholder="0.00" class="form-control" name="campground[price]" value="<%= campground.price %>" aria-describedby="price-label">
+                    <input type="text" id="price" placeholder="0.00" class="form-control" name="campground[price]" value="<%= campground.price %>" aria-describedby="price-label" required>
+                    <div class="invalid-feedback">
+                        Price Required
+                    </div>
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="description">Description</label>
-                    <textarea class="form-control" type="text" id="description" name="campground[description]"><%= campground.description %></textarea>
+                    <textarea class="form-control" type="text" id="description" name="campground[description]" required><%= campground.description %></textarea>
                 </div>
                 <div class="mb-5">
                     <button class="btn btn-outline-info">Update Campground</button>
@@ -37,3 +49,26 @@
         </div>
     </div>
 </div>
+
+<script>
+    // Disable form submissions if there are invalid fields
+    (function () {
+      'use strict'
+    
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      const forms = document.querySelectorAll('.validated-form')
+    
+      // Loop over them and prevent submission
+      Array.from(forms)
+        .forEach(function (form) {
+          form.addEventListener('submit', function (event) {
+            if (!form.checkValidity()) {
+              event.preventDefault()
+              event.stopPropagation()
+            }
+    
+            form.classList.add('was-validated')
+          }, false)
+        })
+    })()
+    </script>
